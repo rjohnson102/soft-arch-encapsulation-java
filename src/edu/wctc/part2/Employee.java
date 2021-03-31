@@ -26,22 +26,28 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String ssn;
-    private boolean metWithHr;
-    private boolean metDeptStaff;
-    private boolean reviewedDeptPolicies;
-    private boolean movedIn;
+    private boolean metWithHr = false;
+    private boolean metDeptStaff = false;
+    private boolean reviewedDeptPolicies = false;
+    private boolean movedIn = false;
     private String cubeId;
     private LocalDate orientationDate;
 
-    public Employee(String firstName, String lastName, String ssn) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.ssn = ssn;
+    public Employee(String firstName, String lastName, String ssn, String cubeId, LocalDate orientationDate) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setSsn(ssn);
+        setCubeId(cubeId);
+        setOrientationDate(orientationDate);
+        meetWithHrForBenefitAndSalaryInfo();
+        meetDepartmentStaff();
+        reviewDeptPolicies();
+        moveIntoCubicle(cubeId);
     }
 
     // Assume this must be performed first, and assume that an employee
     // would only do this once, upon being hired.
-    public void meetWithHrForBenefitAndSalaryInfo() {
+    private void meetWithHrForBenefitAndSalaryInfo() {
         metWithHr = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
         String fmtDate = formatter.format(orientationDate);
@@ -51,7 +57,7 @@ public class Employee {
 
     // Assume this must be performed second, and assume that an employee
     // would only do this once, upon being hired.
-    public void meetDepartmentStaff() {
+    private void meetDepartmentStaff() {
         metDeptStaff = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
         String fmtDate = formatter.format(orientationDate);
@@ -90,7 +96,11 @@ public class Employee {
     // allowed through validation.
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if(firstName != "" || firstName != null) {
+            this.firstName = firstName;
+        }
+        else
+            throw new IllegalArgumentException("first name is null");
     }
 
     public String getLastName() {
@@ -98,7 +108,12 @@ public class Employee {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+
+        if(lastName != "" || lastName != null) {
+            this.lastName = lastName;
+        }
+        else
+            throw new IllegalArgumentException("last name is null");
     }
 
     public String getSsn() {
@@ -106,7 +121,12 @@ public class Employee {
     }
 
     public void setSsn(String ssn) {
-        this.ssn = ssn;
+
+        if(ssn != "" || ssn != null) {
+            this.ssn = ssn;
+        }
+        else
+            throw new IllegalArgumentException("ssn is null");
     }
 
     public boolean hasMetWithHr() {
@@ -147,7 +167,12 @@ public class Employee {
     }
 
     public void setCubeId(String cubeId) {
-        this.cubeId = cubeId;
+
+        if(cubeId != "" || cubeId != null) {
+            this.cubeId = cubeId;
+        }
+        else
+            throw new IllegalArgumentException("moved in is null");
     }
 
     public LocalDate getOrientationDate() {
@@ -155,6 +180,11 @@ public class Employee {
     }
 
     public void setOrientationDate(LocalDate orientationDate) {
-        this.orientationDate = orientationDate;
+
+        if(orientationDate != null) {
+            this.orientationDate = orientationDate;
+        }
+        else
+            throw new IllegalArgumentException("orientation date is null");
     }
 }
